@@ -140,13 +140,15 @@
       true,
       "attribute",
       "app",
-      "camelCase"
+      "camelCase",
+      "siwes"
     ],
     "component-selector": [
       true,
       "element",
       "app",
-      "kebab-case"
+      "kebab-case",
+      "siwes"
     ]
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'sws-landing',
@@ -107,11 +108,23 @@ export class LandingComponent implements OnInit {
       title: 'Dew Point',
     }
   ];
+  public intervals: string[] = [
+    'Today',
+    'Yesterday',
+    'This Week',
+    'Last Week',
+    'This Month',
+  ];
+  public defaultIntervalText = 'Interval';
 
   constructor() { }
 
   ngOnInit(): void {
     this.currentStat = this.statsToday[this.statIndex];
+  }
+
+  public openCustomIntervalPicker(picker: MatDatepicker<any>): void {
+    picker.open();
   }
 
   public nextStat(): void {

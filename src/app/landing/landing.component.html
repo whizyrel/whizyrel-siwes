@@ -51,10 +51,23 @@
 
         <div class="d-flex flex-column col-12 col-sm-12 col-md-7 col-lg-8 px-3 px-md-4 py-5 py-sm-0 sws-analytics">
             <mat-form-field class="w-50 my-0 ms-auto" appearance="outline">
-                <mat-label>Interval</mat-label>
+                <mat-label>{{defaultIntervalText}}</mat-label>
                 <mat-select required>
-                  <mat-option selected *ngFor="let option of [1,2,3,4]; index as i" [value]="option">
-                    Today
+                  <mat-option *ngFor="let option of intervals; index as i" [value]="option">{{option}}</mat-option>
+                  <mat-option (click)="openCustomIntervalPicker(picker)">
+                    Custom
+                    <!-- <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matInput [matDatepicker]="picker"> -->
+                    <!-- <mat-datepicker touchUi #picker></mat-datepicker> -->
+                    <mat-date-range-input [rangePicker]="picker" style="display: none!important; visibility: hidden;">
+                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matStartDate placeholder="Start date">
+                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matEndDate placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-date-range-picker touchUi #picker>
+                        <mat-date-range-picker-actions>
+                            <button mat-button matDateRangePickerCancel class="px-4 py-1 rounded-pill">Cancel</button>
+                            <button mat-raised-button class="px-4 py-1 rounded-pill" color="primary" matDateRangePickerApply>Apply</button>
+                        </mat-date-range-picker-actions>
+                    </mat-date-range-picker>
                   </mat-option>
                 </mat-select>
             </mat-form-field>

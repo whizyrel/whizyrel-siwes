@@ -28,7 +28,7 @@ export class LandingComponent implements OnInit {
     series: [
       {
         name: 'Series 1',
-        data: [45, 56, 50, 53, 48, 45, 43]
+        data: [45, 56, 50, 53, 49, 46, 43]
       }
     ],
     grid: {show: false},

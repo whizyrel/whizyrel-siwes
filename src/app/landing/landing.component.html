@@ -62,11 +62,10 @@
             </div>
 
             <mat-button-toggle-group class="mb-3 rounded-pill shadow-sm" color="primary" style="width: fit-content; border: 0!important;">
-                <mat-button-toggle class="px-4 bg-transparent" value="c" style="border: 0!important; color: inherit;">
-                    &deg;C
-                </mat-button-toggle>
-                <mat-button-toggle class="px-4 bg-transparent" value="f" style="border: 0!important; color: inherit;">&deg;F</mat-button-toggle>
-                <mat-button-toggle class="px-4 bg-transparent" value="k" style="border: 0!important; color: inherit;">K</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="c" style="border: 0!important; color: inherit;">&deg;C</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="f" style="border: 0!important; color: inherit;">RH</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="k" style="border: 0!important; color: inherit;">H.I</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="k" style="border: 0!important; color: inherit;">DWPNT</mat-button-toggle>
             </mat-button-toggle-group>
 
             <div matRipple *ngFor="let item of [1,2,3,4,5,6,7]; index as i; first as isFirst; last as isLast" class="d-flex w-100 my-2 px-3 py-2 sws-week__history rounded-3" [ngClass]="{'mt-0': isFirst, 'mb-0': isLast}" style="cursor: pointer;">

@@ -2,7 +2,7 @@
 @import '../../styles.scss';
 
 mat-toolbar {
-    z-index: 5000000;
+    z-index: 999;
 
     &.app-bar {
         color: map.get($siwes-primary, 'default');

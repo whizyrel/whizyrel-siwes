@@ -79,10 +79,59 @@ export class LandingComponent implements OnInit {
       }
     }
   };
+  public statIndex = 0;
+  public currentStat: any;
+  public statsToday = [
+    {
+      link: 'https://storage.googleapis.com/whizyrel-public/cloud.png',
+      value: 32,
+      unit: '&deg;C',
+      title: 'Temperature',
+    },
+    {
+      link: 'https://storage.googleapis.com/whizyrel-public/humidity.png',
+      value: 80,
+      unit: '&rho;',
+      title: 'relative humidity',
+    },
+    {
+      link: 'https://storage.googleapis.com/whizyrel-public/heat.png',
+      value: 24,
+      unit: 'HI',
+      title: 'Heat Index',
+    },
+    {
+      link: 'https://storage.googleapis.com/whizyrel-public/dew.png',
+      value: 32,
+      unit: '&deg;C',
+      title: 'Dew Point',
+    }
+  ];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.currentStat = this.statsToday[this.statIndex];
+  }
+
+  public nextStat(): void {
+    ++this.statIndex;
+
+    if (this.statIndex >= this.statsToday.length) {
+      this.statIndex = 0;
+    }
+
+    this.currentStat = this.statsToday[this.statIndex];
+  }
+
+  public previousStat(): void {
+    --this.statIndex;
+
+    if (this.statIndex < 0) {
+      this.statIndex = this.statsToday.length - 1;
+    }
+
+    this.currentStat = this.statsToday[this.statIndex];
   }
 
   public getDate(): Date {

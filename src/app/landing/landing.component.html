@@ -1,13 +1,13 @@
 <mat-toolbar class="app-bar position-sticky top-0 shadow-lg">
-    <button mat-icon-button class="rounded-circle my-auto mx-2">
+    <button mat-icon-button class="rounded-circle my-auto mx-2" (click)="places.scrollBy({'left': -96, 'top': 0})">
         <mat-icon class="my-auto">keyboard_arrow_left</mat-icon>
     </button>
-    <div class="d-flex container p-0 py-2 my-auto">
+    <div #places class="d-flex container p-0 py-2 my-auto">
         <button mat-flat-button *ngFor="let city of cities; index as i" class="mx-3 px-4 rounded-pill" [ngClass]="{'active': i === active, 'shadow-sm': i === active, 'fw-bold': i === active}" style="width: fit-content; min-width: fit-content;" (click)="active = i">
             <span>{{city}}</span>
         </button>
     </div>
-    <button mat-icon-button class="rounded-circle my-auto mx-2" color="primary">
+    <button mat-icon-button class="rounded-circle my-auto mx-2" color="primary" (click)="places.scrollBy({'left': 96, 'top': 0})">
         <mat-icon class="my-auto">keyboard_arrow_right</mat-icon>
     </button>
 </mat-toolbar>

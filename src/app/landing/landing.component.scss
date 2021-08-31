@@ -1,0 +1,85 @@
+@use 'sass:map';
+@import '../../styles.scss';
+
+@debug $siwes-primary;
+
+mat-toolbar {
+    z-index: 5000000;
+
+    &.app-bar {
+        color: map.get($siwes-primary, 'default');
+        background-color: map.get($siwes-primary, 'default-contrast');
+    }
+
+    div {
+        &.container {
+            overflow: auto hidden;
+
+            button {
+                color: map.get($siwes-primary, 'default');
+                background-color: transparent;
+                transition: background-color ease 1s;
+
+                &.active {
+                    color: map.get($siwes-primary, 'default-contrast');
+                    background-color: map.get($siwes-primary, 'default');;
+                }
+            }
+
+            &::-webkit-scrollbar {
+                height: 0px;
+            }
+        }
+    }
+}
+
+main {
+    // height: calc(100vh - 56px);
+
+    // @media (min-width: 576px) {
+    //     height: calc(100vh - 64px);
+    // }
+
+    div {
+        .sws-stats__today {
+            height: fit-content;
+            background-color: map.get($siwes-primary, 'default');
+            border-radius: 0;
+
+            * {
+                color: map.get($siwes-primary, 'darker-contrast');
+            }
+
+            @media (min-width: 576px) {
+                border-radius: 8px;
+            }
+        }
+
+        .sws-analytics {
+            border-style: solid;
+            border-width: 0;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            margin-top: -24px;
+            background-color: map.get($siwes-primary, 'default-contrast');
+
+            @media (min-width: 576px) {
+                border-radius: 0;
+                margin-top: 0px;
+                background-color: transparent;
+            }
+
+            .sws-week__history {
+                background-color: map.get($siwes-primary, 'lighter');
+            }
+        }
+    }
+
+    .tspan__label {
+        tspan {
+            &::hover {
+                fill: map.get($siwes-primary, 'default');
+            }
+        }
+    }
+}

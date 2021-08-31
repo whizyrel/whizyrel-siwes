@@ -69,3 +69,19 @@ body {
     resize: none!important;
   }
 }
+
+div.apexcharts-tooltip {
+  background: transparent!important;
+  border-radius: unset;
+  box-shadow: none!important;
+  border: 0!important;
+
+  div.custom-tooltip.rounded-pill {
+    background-color: map.get($siwes-primary, 'default');
+    color: map.get($siwes-primary, 'default-contrast');
+    
+    span {
+      border-radius: inherit;
+    }
+  }
+}

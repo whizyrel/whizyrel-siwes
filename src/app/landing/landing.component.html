@@ -13,7 +13,7 @@
 </mat-toolbar>
 <main class="d-flex container flex-column p-0">
     <div class="d-flex flex-wrap w-100 my-sm-auto py-sm-5">
-        <div class="d-flex flex-column col-12 col-sm-6 col-md-5 col-lg-4 px-2 px-sm-3 py-5 sws-stats__today">
+        <div class="d-flex flex-column col-12 col-sm-12 col-md-5 col-lg-4 my-sm-4 my-md-0 px-2 px-sm-3 py-5 sws-stats__today">
             <div class="d-flex w-100 mx-auto mt-3 mt-sm-5 py-3">
                 <p class="mat-subheading-1 ms-auto my-auto">{{today | date:'E, LLL d YYYY'}}</p>
                 <button mat-icon-button class="rounded-pill me-auto">
@@ -40,10 +40,28 @@
             </button>
         </div>
 
-        <div class="d-flex flex-column col-12 col-sm-6 col-md-7 col-lg-8 px-3 py-4 py-sm-0 sws-analytics">
-            <div class="d-flex w-100 py-5">
+        <div class="d-flex flex-column col-12 col-sm-12 col-md-7 col-lg-8 px-3 px-md-4 py-5 py-sm-0 sws-analytics">
+            <mat-form-field class="w-50 my-0 ms-auto" appearance="outline">
+                <mat-label>Interval</mat-label>
+                <mat-select required>
+                  <mat-option selected *ngFor="let option of [1,2,3,4]; index as i" [value]="option">
+                    Today
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="d-flex w-100 mb-4">
                 <apx-chart class="w-100" [series]="options.series" [chart]="options.chart" [xaxis]="options.xaxis" [yaxis]="options.yaxis" [dataLabels]="options.dataLabels" [fill]="options.fill" [grid]="options.grid" [stroke]="options.stroke" [states]="options.states" [colors]="options.colors" [markers]="options.markers" [tooltip]="options.tooltip"></apx-chart>
             </div>
+
+            <mat-button-toggle-group class="mb-3 rounded-pill shadow-sm" color="primary" style="width: fit-content; border: 0!important;">
+                <mat-button-toggle class="px-4 bg-transparent" value="c" style="border: 0!important; color: inherit;">
+                    &deg;C
+                </mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent" value="f" style="border: 0!important; color: inherit;">&deg;F</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent" value="k" style="border: 0!important; color: inherit;">K</mat-button-toggle>
+            </mat-button-toggle-group>
+
             <div matRipple *ngFor="let item of [1,2,3,4,5,6,7]; index as i; first as isFirst; last as isLast" class="d-flex w-100 my-2 px-3 py-2 sws-week__history rounded-3" [ngClass]="{'mt-0': isFirst, 'mb-0': isLast}" style="cursor: pointer;">
                 <div class="d-flex flex-column my-auto">
                     <span class="mat-subheading-1 p-0 m-0">Monday</span>

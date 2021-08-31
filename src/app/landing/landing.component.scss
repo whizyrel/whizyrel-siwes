@@ -1,8 +1,6 @@
 @use 'sass:map';
 @import '../../styles.scss';
 
-@debug $siwes-primary;
-
 mat-toolbar {
     z-index: 5000000;
 
@@ -34,12 +32,6 @@ mat-toolbar {
 }
 
 main {
-    // height: calc(100vh - 56px);
-
-    // @media (min-width: 576px) {
-    //     height: calc(100vh - 64px);
-    // }
-
     div {
         .sws-stats__today {
             height: fit-content;
@@ -71,6 +63,15 @@ main {
 
             .sws-week__history {
                 background-color: map.get($siwes-primary, 'lighter');
+            }
+
+            mat-form-field {
+                font-size: map.get($typography, 'caption', 'font-size');
+            }
+
+            mat-button-toggle-group {
+                background-color: map.get($siwes-primary, 'default');
+                color: map.get($siwes-primary, 'default-contrast');
             }
         }
     }

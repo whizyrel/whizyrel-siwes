@@ -16,9 +16,9 @@
         <div class="d-flex flex-column col-12 col-sm-12 col-md-5 col-lg-4 my-sm-4 my-md-0 px-2 px-sm-3 py-5 sws-stats__today">
             <div class="d-flex mx-auto py-3">
                 <p class="mat-subheading-1 my-auto">{{today | date:'E, LLL d YYYY'}}</p>
-                <!-- <button mat-icon-button class="rounded-pill me-auto">
+                <button mat-icon-button class="rounded-pill ms-1 me-auto">
                     <mat-icon class="my-auto">arrow_drop_down</mat-icon>
-                </button> -->
+                </button>
             </div>
 
             <ng-container>
@@ -31,7 +31,7 @@
                         <img class="mx-auto mb-3" src="{{currentStat?.link}}" alt="weather-image" style="width: 124px; height: 124px; object-fit: contain; object-position: 50%;">
 
                         <div class="d-flex mx-auto">
-                            <p class="mat-display-3 mb-0">{{currentStat?.value}}</p>
+                            <p class="mat-display-2 mb-0">{{convertNumber(currentStat?.value, 2)}}</p>
                             <sup class="mat-headline me-auto mt-2 mb-auto" [innerHtml]="currentStat?.unit"></sup>
                         </div>
                     </div>
@@ -52,15 +52,15 @@
         <div class="d-flex flex-column col-12 col-sm-12 col-md-7 col-lg-8 px-3 px-md-4 py-5 py-sm-0 sws-analytics">
             <mat-form-field class="w-50 my-0 ms-auto" appearance="outline">
                 <mat-label>{{defaultIntervalText}}</mat-label>
-                <mat-select required>
-                  <mat-option *ngFor="let option of intervals; index as i" [value]="option">{{option}}</mat-option>
+                <mat-select [formControl]="intervalControl">
+                  <mat-option *ngFor="let option of intervals; index as i" [value]="option.name" (click)="setApiInterval(option.apiInterval)">{{option.name}}</mat-option>
                   <mat-option (click)="openCustomIntervalPicker(picker)">
                     Custom
                     <!-- <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matInput [matDatepicker]="picker"> -->
                     <!-- <mat-datepicker touchUi #picker></mat-datepicker> -->
                     <mat-date-range-input [rangePicker]="picker" style="display: none!important; visibility: hidden;">
-                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matStartDate placeholder="Start date">
-                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matEndDate placeholder="End date">
+                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matStartDate placeholder="Start date" (dateChange)="dateRangeChange($event, 'start')">
+                        <input class="d-flex w-100 h-100" style="display: none!important; visibility: hidden;" matEndDate placeholder="End date" (dateChange)="dateRangeChange($event, 'end')">
                     </mat-date-range-input>
                     <mat-date-range-picker touchUi #picker>
                         <mat-date-range-picker-actions>
@@ -76,26 +76,36 @@
                 <apx-chart class="w-100" [series]="options.series" [chart]="options.chart" [xaxis]="options.xaxis" [yaxis]="options.yaxis" [dataLabels]="options.dataLabels" [fill]="options.fill" [grid]="options.grid" [stroke]="options.stroke" [states]="options.states" [colors]="options.colors" [markers]="options.markers" [tooltip]="options.tooltip"></apx-chart>
             </div>
 
-            <mat-button-toggle-group class="mb-3 rounded-pill shadow-sm" color="primary" style="width: fit-content; border: 0!important;">
-                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="c" style="border: 0!important; color: inherit;">&deg;C</mat-button-toggle>
-                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="f" style="border: 0!important; color: inherit;">RH</mat-button-toggle>
-                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="k" style="border: 0!important; color: inherit;">H.I</mat-button-toggle>
-                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="k" style="border: 0!important; color: inherit;">DWPNT</mat-button-toggle>
+            <mat-button-toggle-group class="mb-3 rounded-pill shadow-sm" color="primary" style="width: fit-content; border: 0!important;" [value]="target.weekly" (change)="targetChanged($event, 'weekly')">
+                <mat-button-toggle selected class="px-4 bg-transparent mat-caption" value="c" style="border: 0!important; color: inherit;">&deg;C</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="h" style="border: 0!important; color: inherit;">RH</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="hi" style="border: 0!important; color: inherit;">H.I</mat-button-toggle>
+                <mat-button-toggle class="px-4 bg-transparent mat-caption" value="dp" style="border: 0!important; color: inherit;">DWPNT</mat-button-toggle>
             </mat-button-toggle-group>
 
-            <div matRipple *ngFor="let item of [1,2,3,4,5,6,7]; index as i; first as isFirst; last as isLast" class="d-flex w-100 my-2 px-3 py-2 sws-week__history rounded-3" [ngClass]="{'mt-0': isFirst, 'mb-0': isLast}" style="cursor: pointer;">
-                <div class="d-flex flex-column my-auto">
-                    <span class="mat-subheading-1 p-0 m-0">Monday</span>
-                    <span class="mat-h5 p-0 m-0">{{getDate() | date:'longDate'}}</span>
+            {{apiInterval}}
+            <ng-container *ngIf="weeklyData && weeklyData.length > 0; else noWeeklyData;">
+                <div matRipple *ngFor="let item of weeklyData; index as i; first as isFirst; last as isLast" class="d-flex w-100 my-2 px-3 py-2 sws-week__history rounded-3" [ngClass]="{'mt-0': isFirst, 'mb-0': isLast}" style="cursor: pointer;">
+                    <div class="d-flex flex-column my-auto">
+                        <span class="mat-subheading-1 p-0 m-0">{{getDate(item[1]) | date:'EEEE'}}</span>
+                        <span class="mat-h5 p-0 m-0">{{item[1] | date:'longDate'}}</span>
+                    </div>
+    
+                    <button mat-icon-button class="ms-auto my-auto p-2 rounded-circle">
+                        <mat-icon class="m-auto" color="primary">wb_sunny</mat-icon>
+                    </button>
+    
+                    <p class="mat-subheading-1 ms-2 my-auto">{{convertNumber(item[0], 2)}}</p>
+                    <p class="mat-subheading-1 my-auto me-2" [innerHtml]="dataSymbols[target.weekly]"></p>
                 </div>
+            </ng-container>
 
-                <button mat-icon-button class="ms-auto my-auto p-2 rounded-circle">
-                    <mat-icon class="m-auto" color="primary">wb_sunny</mat-icon>
-                </button>
-
-                <p class="mat-subheading-1 ms-2 my-auto">32</p>
-                <p class="mat-subheading-1 my-auto me-2">&deg;C</p>
-            </div>
+            <ng-template #noWeeklyData>
+                <div class="d-flex flex-column w-100 py-5">
+                    <!-- TODO add vector for no data -->
+                    <span class="mat-body m-auto">No Weekly Data Available</span>
+                </div>
+            </ng-template>
         </div>
     </div>
 </main>

@@ -25,6 +25,7 @@
     "apexcharts": "^3.28.1",
     "bootstrap": "^5.1.0",
     "ng-apexcharts": "^1.5.12",
+    "ngx-mqtt": "^9.0.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
